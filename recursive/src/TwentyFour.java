@@ -43,10 +43,12 @@ public class TwentyFour {
 		private Double b = null;
 		private Operation o = null;
 		private Double r;
+		private String s = null;
 
 		public OpUnit(Double a) {
 			this.a = a;
 			r = a;
+			s = a.toString();
 		}
 
 		public OpUnit(Double a, Double b, Operation o) {
@@ -54,10 +56,15 @@ public class TwentyFour {
 			this.b = b;
 			this.o = o;
 			r = o.calc(this.a, this.b);
+			if (b != null)
+				s = a + o.toString() + b;
+			else
+				s = a.toString();
 		}
 
-		public OpUnit(OpUnit a, OpUnit b, Operation o) {
-			this(a.r, b.r, o);
+		public OpUnit(OpUnit au, OpUnit bu, Operation o) {
+			this(au.r, bu.r, o);
+			s = au.s + o.toString() + bu.s;
 		}
 
 		public Double r() {
@@ -66,7 +73,7 @@ public class TwentyFour {
 
 		@Override
 		public String toString() {
-			return a + o.toString() + b;
+			return s;
 		}
 	}
 
@@ -137,6 +144,6 @@ public class TwentyFour {
 	}
 
 	public static void main(String[] args) {
-		play(6, 6, 6, 6);
+		play(1, 2, 3, 4);
 	}
 }
