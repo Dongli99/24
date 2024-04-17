@@ -48,23 +48,15 @@ public class TwentyFour {
 		public OpUnit(Double a) {
 			this.a = a;
 			r = a;
-			s = a.toString();
-		}
-
-		public OpUnit(Double a, Double b, Operation o) {
-			this.a = a;
-			this.b = b;
-			this.o = o;
-			r = o.calc(this.a, this.b);
-			if (b != null)
-				s = a + o.toString() + b;
-			else
-				s = a.toString();
+			s = Integer.toString(a.intValue());
 		}
 
 		public OpUnit(OpUnit au, OpUnit bu, Operation o) {
-			this(au.r, bu.r, o);
-			s = au.s + o.toString() + bu.s;
+			this.a = au.r;
+			this.b = bu.r;
+			this.o = o;
+			r = o.calc(this.a, this.b);
+			s = "(" + au.s + o.toString() + bu.s + ")";
 		}
 
 		public Double r() {
@@ -96,28 +88,23 @@ public class TwentyFour {
 	}
 
 	private static String makeNum(Double target, OpUnit... us) {
-		if (us.length == 0)
+		if (us.length == 1)
 			return null;
-		List<List<OpUnit>> orders = new ArrayList<>();
-		List<OpUnit> origin = new ArrayList<>();
-		for (OpUnit u : us) {
-			origin.add(u);
-		}
-		genOrders(origin, 0, orders);
 		for (Operation o : os) {
-			for (List<OpUnit> od : orders) {
-				if (us.length == 2) {
-					OpUnit u = new OpUnit(od.get(0), od.get(1), o);
-					if (u.r().equals(target))
-						return u.toString();
-				} else {
-					OpUnit u = new OpUnit(od.get(0), od.get(1), o);
-					OpUnit[] remain = new OpUnit[us.length - 1];
-					remain[0] = u;
-					System.arraycopy(us, 2, remain, 1, us.length - 2);
-					String result = makeNum(target, remain);
-					if (result != null) {
-						return result;
+			if (us.length == 2) {
+				OpUnit u = new OpUnit(us[0], us[1], o);
+				if (u.r().equals(target))
+					return u.toString();
+			} else {
+				for (int i = 0; i < us.length; i++) {
+					for (int j = 0; j < us.length; j++) {
+						if (i == j)
+							continue;
+						OpUnit[] remain = combineUnits(us, i, j, o);
+						String result = makeNum(target, remain);
+						if (result != null) {
+							return result;
+						}
 					}
 				}
 			}
@@ -125,25 +112,19 @@ public class TwentyFour {
 		return null;
 	}
 
-	private static void genOrders(List<OpUnit> origin, int index, List<List<OpUnit>> orders) {
-		if (index == origin.size()) {
-			orders.add(new ArrayList<>(origin));
-		} else {
-			for (int i = index; i < origin.size(); i++) {
-				swap(origin, index, i);
-				genOrders(origin, index + 1, orders);
-				swap(origin, index, i); // Backtrack
-			}
+	private static OpUnit[] combineUnits(OpUnit[] us, int i, int j, Operation o) {
+		OpUnit[] remain = new OpUnit[us.length - 1];
+		int index = 0;
+		remain[index] = new OpUnit(us[i], us[j], o);
+		for (int k = 0; k < us.length; k++) {
+			if (k == i || k == j)
+				continue;
+			remain[++index] = us[k];
 		}
-	}
-
-	private static void swap(List<OpUnit> origin, int i, int j) {
-		OpUnit temp = origin.get(i);
-		origin.set(i, origin.get(j));
-		origin.set(j, temp);
+		return remain;
 	}
 
 	public static void main(String[] args) {
-		play(1, 2, 3, 4);
+		play(5, 8, 7, 3);
 	}
 }
