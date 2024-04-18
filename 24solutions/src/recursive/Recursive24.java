@@ -1,3 +1,4 @@
+package recursive;
 
 /**
  * Copy right 2024, Dongli Liu.
@@ -11,8 +12,10 @@
  * or as a solo puzzle. 
  * Example: given numbers 5, 12, 2, 10, the solution can be: (5+12)*2-10=24
  * 
+ * @author Dongli Liu
  */
 import java.util.Random;
+import java.util.Scanner;
 import java.util.function.BinaryOperator;
 
 public class Recursive24 {
@@ -175,7 +178,7 @@ public class Recursive24 {
 				new OpUnit(Double.valueOf(d)));
 		// build the solution expression if found, otherwise build no answer message
 		solution = solution != null
-				? solution + "=" + TARGET
+				? solution + "=" + target
 				: String.format("No answer for (%d, %d, %d, %d)", a, b, c, d);
 		System.out.println(solution);
 	}
@@ -222,23 +225,45 @@ public class Recursive24 {
 	}
 
 	/**
-	 * The main method for running the program.
-	 * 
-	 * @param args Command-line arguments.
+	 * Executes a test scenario where random numbers are generated and passed to the
+	 * 'play' method.
+	 * The purpose of this method is to debug in a exhausting approach.
+	 *
+	 * @throws Exception if an error occurs during the test execution
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void exhaustTest() throws Exception {
 		Random rand = new Random();
-		while (true) {
+		int i = 1;
+		while (i < 1000001) {
 			int a = rand.nextInt(13) + 1; // Generate random numbers between 1 and 13
 			int b = rand.nextInt(13) + 1;
 			int c = rand.nextInt(13) + 1;
 			int d = rand.nextInt(13) + 1;
+
 			try {
+				System.out.print(i++ + ": ");
 				play(a, b, c, d); // Play the game with the random numbers
 			} catch (Exception e) {
 				String killer = String.format("(%d, %d, %d, %d)", a, b, c, d);
 				throw new Exception(String.format("Inspection required to %s", killer));
 			}
 		}
+	}
+
+	/**
+	 * The main method for running the program.
+	 * 
+	 * @param args Command-line arguments.
+	 * @throws Exception
+	 */
+	public static void main(String[] args) throws Exception {
+		int[] numbers = new int[4];
+		for (int i = 0; i < 4; i++) {
+			Scanner sc = new Scanner(System.in);
+			System.out.print("Enter an integer between 1 and 13: ");
+			numbers[i] = sc.nextInt();
+		}
+		play(numbers[0], numbers[1], numbers[2], numbers[3]);
+		// exhaustTest();
 	}
 }
