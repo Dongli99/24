@@ -14,9 +14,12 @@ package recursive;
  * 
  * @author Dongli Liu
  */
+
 import java.util.Random;
 import java.util.Scanner;
 import java.util.function.BinaryOperator;
+
+import utils.ExpressionNormalizer;
 
 public class Recursive24 {
 	/**
@@ -178,7 +181,7 @@ public class Recursive24 {
 				new OpUnit(Double.valueOf(d)));
 		// build the solution expression if found, otherwise build no answer message
 		solution = solution != null
-				? solution + "=" + target
+				? ExpressionNormalizer.normalizeExpression(solution, solution.length() - 1) + "=" + target
 				: String.format("No answer for (%d, %d, %d, %d)", a, b, c, d);
 		System.out.println(solution);
 	}
@@ -244,8 +247,8 @@ public class Recursive24 {
 				System.out.print(i++ + ": ");
 				play(a, b, c, d); // Play the game with the random numbers
 			} catch (Exception e) {
-				String killer = String.format("(%d, %d, %d, %d)", a, b, c, d);
-				throw new Exception(String.format("Inspection required to %s", killer));
+				System.out.println(String.format("(%d, %d, %d, %d)", a, b, c, d));
+				e.printStackTrace();
 			}
 		}
 	}
@@ -258,11 +261,12 @@ public class Recursive24 {
 	 */
 	public static void main(String[] args) throws Exception {
 		int[] numbers = new int[4];
+		Scanner sc = new Scanner(System.in);
 		for (int i = 0; i < 4; i++) {
-			Scanner sc = new Scanner(System.in);
 			System.out.print("Enter an integer between 1 and 13: ");
 			numbers[i] = sc.nextInt();
 		}
+		sc.close();
 		play(numbers[0], numbers[1], numbers[2], numbers[3]);
 		// exhaustTest();
 	}
