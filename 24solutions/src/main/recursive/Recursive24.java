@@ -1,24 +1,8 @@
 package main.recursive;
 
-/**
- * 
- * A class for solving the 24 game with recursive function.
- * 
- * The 24 Game is a mathematical card game where the objective is to use 
- * four given numbers and the basic arithmetic operations (+, -, *, /) to 
- * arrive at the number 24. Players must use all four numbers exactly once 
- * and can only use each number once. The game can be played competitively 
- * or as a solo puzzle. 
- * Example: given numbers 5, 12, 2, 10, the solution can be: (5+12)*2-10=24
- * 
- * @author Dongli Liu
- */
-
-import java.util.Random;
 import java.util.Scanner;
 import java.util.function.BinaryOperator;
 
-import main.utils.ExpressionEvaluator;
 import main.utils.ExpressionNormalizer;
 
 public class Recursive24 {
@@ -219,7 +203,7 @@ public class Recursive24 {
 	}
 
 	/**
-	 * The main method for running the program.
+	 * A method allow to set the Target to any integer.
 	 * 
 	 * @param newTarget The new target integer to replace original 24.
 	 */
