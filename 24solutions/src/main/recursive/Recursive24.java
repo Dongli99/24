@@ -1,4 +1,4 @@
-package recursive;
+package main.recursive;
 
 /**
  * Copy right 2024, Dongli Liu.
@@ -18,8 +18,9 @@ package recursive;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.function.BinaryOperator;
+import test.recursive.ExpressionEvaluator;
 
-import utils.ExpressionNormalizer;
+import main.utils.ExpressionNormalizer;
 
 public class Recursive24 {
 	/**
@@ -157,7 +158,7 @@ public class Recursive24 {
 	}
 
 	// Constants for the operations
-	private static Integer target = 24;
+	private static int target = 24;
 	private static final Operation P = new Operation('+');
 	private static final Operation M = new Operation('-');
 	private static final Operation T = new Operation('*');
@@ -172,7 +173,7 @@ public class Recursive24 {
 	 * @param c The third number.
 	 * @param d The fourth number.
 	 */
-	public static void play(int a, int b, int c, int d) {
+	public static String play(int a, int b, int c, int d) {
 		String solution = makeNum(
 				Double.valueOf(target),
 				new OpUnit(Double.valueOf(a)),
@@ -181,9 +182,9 @@ public class Recursive24 {
 				new OpUnit(Double.valueOf(d)));
 		// build the solution expression if found, otherwise build no answer message
 		solution = solution != null
-				? ExpressionNormalizer.normalizeExpression(solution, solution.length() - 1) + "=" + target
+				? ExpressionNormalizer.normalizeExpression(solution, solution.length() - 1)
 				: String.format("No answer for (%d, %d, %d, %d)", a, b, c, d);
-		System.out.println(solution);
+		return solution;
 	}
 
 	/**
@@ -223,8 +224,12 @@ public class Recursive24 {
 	 * 
 	 * @param newTarget The new target integer to replace original 24.
 	 */
-	public void setTarget(Integer newTarget) {
+	public static void setTarget(int newTarget) {
 		target = newTarget;
+	}
+
+	public static int getTarget() {
+		return target;
 	}
 
 	/**
@@ -242,13 +247,17 @@ public class Recursive24 {
 			int b = rand.nextInt(13) + 1;
 			int c = rand.nextInt(13) + 1;
 			int d = rand.nextInt(13) + 1;
-
+			String solution = play(a, b, c, d);
 			try {
-				System.out.print(i++ + ": ");
-				play(a, b, c, d); // Play the game with the random numbers
+				System.out.println(i++ + ": " + solution);
 			} catch (Exception e) {
 				System.out.println(String.format("(%d, %d, %d, %d)", a, b, c, d));
 				e.printStackTrace();
+			}
+			if (solution.charAt(0) != 'N') {
+				double result = ExpressionEvaluator.evaluate(solution);
+				if (result != 24.0)
+					break;
 			}
 		}
 	}
@@ -260,14 +269,14 @@ public class Recursive24 {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		int[] numbers = new int[4];
-		Scanner sc = new Scanner(System.in);
-		for (int i = 0; i < 4; i++) {
-			System.out.print("Enter an integer between 1 and 13: ");
-			numbers[i] = sc.nextInt();
-		}
-		sc.close();
-		play(numbers[0], numbers[1], numbers[2], numbers[3]);
-		// exhaustTest();
+		// int[] numbers = new int[4];
+		// Scanner sc = new Scanner(System.in);
+		// for (int i = 0; i < 4; i++) {
+		// System.out.print("Enter an integer between 1 and 13: ");
+		// numbers[i] = sc.nextInt();
+		// }
+		// sc.close();
+		// System.out.println(play(numbers[0], numbers[1], numbers[2], numbers[3]));
+		exhaustTest();
 	}
 }
