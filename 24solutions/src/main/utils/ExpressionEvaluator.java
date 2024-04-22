@@ -1,4 +1,19 @@
-package test.recursive;
+/** 
+ * 
+ * A class for evaluating the result of a String Math expression. The algorithms 
+ * are inspired by Shunting Yard algorithm and Reverse Polish Notation (RPN)
+ * 
+ * The 24 Game is a mathematical card game where the objective is to use 
+ * four given numbers and the basic arithmetic operations (+, -, *, /) to 
+ * arrive at the number 24. Players must use all four numbers exactly once 
+ * and can only use each number once. The game can be played competitively 
+ * or as a solo puzzle. 
+ * Example: given numbers 5, 12, 2, 10, the solution can be: (5+12)*2-10=24
+ * 
+ * @author Dongli Liu
+ */
+
+package main.utils;
 
 import java.util.Stack;;
 
@@ -31,7 +46,6 @@ public class ExpressionEvaluator {
                 // to top two elements in values stack
                 while (!operators.empty() && hasPrecedence(tokens[i], operators.peek()))
                     values.push(applyOperator(operators.pop(), values.pop(), values.pop()));
-
                 // Push current token to 'operators'.
                 operators.push(tokens[i]);
             }

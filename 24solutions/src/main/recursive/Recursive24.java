@@ -1,7 +1,6 @@
 package main.recursive;
 
 /**
- * Copy right 2024, Dongli Liu.
  * 
  * A class for solving the 24 game with recursive function.
  * 
@@ -18,8 +17,8 @@ package main.recursive;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.function.BinaryOperator;
-import test.recursive.ExpressionEvaluator;
 
+import main.utils.ExpressionEvaluator;
 import main.utils.ExpressionNormalizer;
 
 public class Recursive24 {
@@ -232,51 +231,14 @@ public class Recursive24 {
 		return target;
 	}
 
-	/**
-	 * Executes a test scenario where random numbers are generated and passed to the
-	 * 'play' method.
-	 * The purpose of this method is to debug in a exhausting approach.
-	 *
-	 * @throws Exception if an error occurs during the test execution
-	 */
-	public static void exhaustTest() throws Exception {
-		Random rand = new Random();
-		int i = 1;
-		while (i < 1000001) {
-			int a = rand.nextInt(13) + 1; // Generate random numbers between 1 and 13
-			int b = rand.nextInt(13) + 1;
-			int c = rand.nextInt(13) + 1;
-			int d = rand.nextInt(13) + 1;
-			String solution = play(a, b, c, d);
-			try {
-				System.out.println(i++ + ": " + solution);
-			} catch (Exception e) {
-				System.out.println(String.format("(%d, %d, %d, %d)", a, b, c, d));
-				e.printStackTrace();
-			}
-			if (solution.charAt(0) != 'N') {
-				double result = ExpressionEvaluator.evaluate(solution);
-				if (result != 24.0)
-					break;
-			}
-		}
-	}
-
-	/**
-	 * The main method for running the program.
-	 * 
-	 * @param args Command-line arguments.
-	 * @throws Exception
-	 */
 	public static void main(String[] args) throws Exception {
-		// int[] numbers = new int[4];
-		// Scanner sc = new Scanner(System.in);
-		// for (int i = 0; i < 4; i++) {
-		// System.out.print("Enter an integer between 1 and 13: ");
-		// numbers[i] = sc.nextInt();
-		// }
-		// sc.close();
-		// System.out.println(play(numbers[0], numbers[1], numbers[2], numbers[3]));
-		exhaustTest();
+		int[] numbers = new int[4];
+		Scanner sc = new Scanner(System.in);
+		for (int i = 0; i < 4; i++) {
+			System.out.print("Enter an integer between 1 and 13: ");
+			numbers[i] = sc.nextInt();
+		}
+		sc.close();
+		System.out.println(play(numbers[0], numbers[1], numbers[2], numbers[3]));
 	}
 }

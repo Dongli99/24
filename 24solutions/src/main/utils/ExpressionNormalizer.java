@@ -1,7 +1,7 @@
 /**
  * Copy right 2024, Dongli Liu.
  * 
- * A class for solving the 24 game with recursive function.
+ * A utility class for trimming a Math expression by removing extra parenthesis.
  * 
  * The 24 Game is a mathematical card game where the objective is to use 
  * four given numbers and the basic arithmetic operations (+, -, *, /) to 
@@ -19,6 +19,13 @@ import java.util.Set;
 import java.util.ArrayList;
 
 public class ExpressionNormalizer {
+    /**
+     * Normalizes a mathematical expression by removing redundant parentheses.
+     * 
+     * @param expression The input mathematical expression.
+     * @param left       The starting index of the expression.
+     * @return The normalized expression.
+     */
     public static String normalizeExpression(String expression, int left) {
         while (left >= 0 && expression.charAt(left) != '(')
             left--;
@@ -30,6 +37,14 @@ public class ExpressionNormalizer {
         return normalizeExpression(expression, left - 1);
     }
 
+    /**
+     * Removes the characters from the input string within the given range.
+     * 
+     * @param string The input string.
+     * @param left   The left index of the range to remove.
+     * @param right  The right index of the range to remove.
+     * @return The modified string after removal.
+     */
     private static String removeTwoChars(String string, int left, int right) {
         String cleared = string.substring(0, left);
         cleared += string.substring(left + 1, right);
@@ -38,6 +53,14 @@ public class ExpressionNormalizer {
         return cleared;
     }
 
+    /**
+     * Checks if the parentheses at the specified indices are removable.
+     * 
+     * @param expression The input expression.
+     * @param left       The left index of the parentheses.
+     * @param right      The right index of the parentheses.
+     * @return True if the parentheses are removable, false otherwise.
+     */
     private static boolean isRemovable(String expression, int left, int right) {
         Set<Character> flippingFactors = Set.of('-', '/');
         Set<Character> powerless = Set.of('+', '-', '(', ')');
@@ -53,6 +76,14 @@ public class ExpressionNormalizer {
         return frontOk && backOk;
     }
 
+    /**
+     * Finds the pivot symbol within the specified range of the expression.
+     * 
+     * @param expression The input expression.
+     * @param left       The left index of the range.
+     * @param right      The right index of the range.
+     * @return The pivot symbol found within the range.
+     */
     private static char getPivotSymbol(String expression, int left, int right) {
         Set<Character> symbols = Set.of('+', '-', '*', '/');
         ArrayList<Character> operations = new ArrayList<Character>();
@@ -73,6 +104,13 @@ public class ExpressionNormalizer {
         return operations.get(location);
     }
 
+    /**
+     * Finds the index of the right bracket corresponding to the left bracket.
+     * 
+     * @param expression The input expression.
+     * @param left       The index of the left bracket.
+     * @return The index of the corresponding right bracket.
+     */
     private static int getRightBracket(String expression, int left) {
         int right = left + 1;
         int nested = 0;
